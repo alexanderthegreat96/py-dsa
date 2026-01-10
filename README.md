@@ -439,13 +439,21 @@ if __name__ == "__main__":
 * **Space**: O(1) means "In-Place" (no extra memory).
 
 # 🏗️ Data Structures
-
 Data structures are simply ways to organize, well, data.
 
-### 🏆 Most Commonly Used Structures
-1.  **Arrays/Lists:** Used for most general-purpose data storage.
-2.  **Hash Tables (Dictionaries):** Used for instant $O(1)$ lookups.
-3.  **Trees/Tries:** Used for hierarchical data and search engines.
+
+### 1. Linear Structures
+* **Arrays/Lists:** Contiguous memory storage. Best for general-purpose use and index-based access.
+* **Singly Linked Lists:** Nodes pointing forward. Best for frequent insertions at the head.
+* **Doubly Linked Lists:** Nodes pointing both ways. Best for bidirectional navigation.
+* **Stacks (LIFO):** Last-In, First-Out. Best for undo/redo logic and function call management.
+* **Queues (FIFO):** First-In, First-Out. Best for task scheduling and processing data in arrival order.
+
+### 2. Nonlinear & Hierarchical Structures
+* **Hash Tables (Dictionaries):** Key-Value mapping. Best for instant $O(1)$ lookups and caching.
+* **Binary Search Trees (BST):** Sorted hierarchical nodes. Best for maintaining sorted data and $O(\log n)$ searching.
+* **Tries (Prefix Trees):** Character-path nodes. Best for autocomplete, spell checkers, and prefix matching.
+* **Graphs:** Network of vertices and edges. Best for modeling social networks, maps, and recommendation engines.
 
 ---
 
