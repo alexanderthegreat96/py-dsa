@@ -150,7 +150,6 @@ Thumbs.db
 # Binary Executables
 # ------------------
 # Ignores the compiled output of 'go build'
-autocomplete
 *.exe
 *.exe~
 *.dll
