@@ -437,4 +437,337 @@ if __name__ == "__main__":
 * **k**: Range of the values (for Counting Sort).
 * **d / k**: Number of digits or the radix (for Radix Sort).
 * **Space**: O(1) means "In-Place" (no extra memory).
- 
+
+# 🏗️ Data Structures
+
+Data structures are simply ways to organize, well, data.
+
+### 🏆 Most Commonly Used Structures
+1.  **Arrays/Lists:** Used for most general-purpose data storage.
+2.  **Hash Tables (Dictionaries):** Used for instant $O(1)$ lookups.
+3.  **Trees/Tries:** Used for hierarchical data and search engines.
+
+---
+
+## 📦 1. Arrays & Dynamic Lists
+The most basic data structure. It stores elements in contiguous memory locations.
+
+* **Pros:** Fastest access via index.
+* **Cons:** Resizing and inserting in the middle can be slow.
+* **Access:** $O(1)$
+* **Search:** $O(n)$
+
+```python
+# Python lists act as dynamic arrays
+my_list = [10, 20, 30, 40]
+
+# Accessing by index (O(1))
+element = my_list[2] # 30
+
+# Inserting at the beginning (O(n) because all other items must shift)
+my_list.insert(0, 5)
+```
+
+## 🔗 2. Singly Linked Lists
+A **Singly Linked List** is a linear collection of nodes where each node points to the **next** node in the sequence. The list starts at a **Head** and ends at a node pointing to `None`.
+
+* **Pros:** Dynamic size and efficient $O(1)$ insertions/deletions at the head.
+* **Cons:** No random access (you can't jump to index 5) and you can only move in one direction.
+* **Access/Search:** $O(n)$
+* **Insertion (at Head):** $O(1)$
+
+
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class SinglyLinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert_at_head(self, data):
+        new_node = Node(data)
+        new_node.next = self.head
+        self.head = new_node
+
+    def traverse(self):
+        current = self.head
+        while current:
+            print(current.data)
+            current = current.next
+```
+
+## 🔗 3. Doubly Linked Lists
+A **Doubly Linked List** is a more advanced version of a linked list where each node contains **two** pointers: one to the `next` node and one to the `previous` node.
+
+* **Pros:** Allows for bidirectional traversal (forward and backward) and easier deletion of a node if you already have a reference to it.
+* **Cons:** Uses more memory per node to store the extra pointer.
+* **Insertion/Deletion:** $O(1)$
+* **Search:** $O(n)$
+
+```python
+class DoublyNode:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        self.prev = None
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+
+    def append(self, data):
+        new_node = DoublyNode(data)
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
+            return
+        
+        # Link the current tail to the new node
+        self.tail.next = new_node
+        new_node.prev = self.tail
+        # Update the tail to the new node
+        self.tail = new_node
+```
+## 🥞 4. Stacks (LIFO)
+A **Stack** is a linear data structure that follows the **Last-In, First-Out** principle. The last element added to the stack is the first one to be removed. Think of it like a stack of plates; you only interact with the one on top.
+
+* **Pros:** Extremely fast $O(1)$ operations for adding and removing data.
+* **Cons:** No random access; you must remove the top items to reach the bottom.
+* **Push (Add):** $O(1)$
+* **Pop (Remove):** $O(1)$
+
+```python
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def push(self, item):
+        self.items.append(item)
+
+    def pop(self):
+        if len(self.items) == 0:
+            return None
+        return self.items.pop()
+
+    def peek(self):
+        if len(self.items) == 0:
+            return None
+        return self.items[-1]
+```
+
+## 🎟️ 5. Queues (FIFO)
+A **Queue** follows the **First-In, First-Out** principle. The first element added is the first one to be removed, identical to a line of people waiting at a store.
+
+* **Pros:** Maintains the exact order of data arrival (First-come, first-served).
+* **Cons:** In Python, using a standard `list` for a queue is slow ($O(n)$) because removing the first element requires shifting all other elements.
+* **Enqueue (Add to back):** $O(1)$
+* **Dequeue (Remove from front):** $O(1)$ (using `deque`)
+
+```python
+from collections import deque
+
+class Queue:
+    def __init__(self):
+        # We use deque (double-ended queue) for O(1) performance
+        self.items = deque()
+
+    def enqueue(self, item):
+        """Add an item to the end of the line."""
+        self.items.append(item)
+
+    def dequeue(self):
+        """Remove the item from the front of the line."""
+        if len(self.items) == 0:
+            return None
+        return self.items.popleft()
+
+    def size(self):
+        return len(self.items)
+```
+
+## 🌲 6. Binary Search Trees (BST)
+A **Binary Search Tree** is a hierarchical structure where each node has at most two children. It is organized specifically to allow for fast searching. For any given node:
+* The **Left** child contains a value smaller than the parent.
+* The **Right** child contains a value larger than the parent.
+
+* **Pros:** Much faster than a linked list for searching and sorting.
+* **Cons:** If the tree becomes "unbalanced" (e.g., all nodes added in increasing order), it performs poorly like a linked list ($O(n)$).
+* **Search/Insert:** $O(\log n)$ average.
+
+
+
+```python
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+class BinarySearchTree:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, value):
+        if self.root is None:
+            self.root = TreeNode(value)
+        else:
+            self._insert_recursive(self.root, value)
+
+    def _insert_recursive(self, current, value):
+        if value < current.value:
+            if current.left is None:
+                current.left = TreeNode(value)
+            else:
+                self._insert_recursive(current.left, value)
+        elif value > current.value:
+            if current.right is None:
+                current.right = TreeNode(value)
+            else:
+                self._insert_recursive(current.right, value)
+```
+## 🔍 7. Tries (Prefix Trees)
+A **Trie** (pronounced "try") is an advanced tree-like data structure used for retrieving specific keys from a set, typically strings. Unlike a standard tree, nodes do not store the word itself; instead, their **position** in the tree defines the key they represent.
+
+* **Pros:** Extremely fast for prefix matching and autocomplete. It is more efficient than a Hash Table for looking up words with shared prefixes.
+* **Cons:** Can consume a significant amount of memory since every character in every word requires a node.
+* **Search/Insert:** $O(L)$ where $L$ is the length of the string.
+
+
+```python
+class TrieNode:
+    def __init__(self):
+        # Dictionary maps characters to the next TrieNode
+        self.children = {}
+        # Boolean to track if this node marks the end of a complete word
+        self.is_end_of_word = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word):
+        current = self.root
+        for char in word:
+            if char not in current.children:
+                current.children[char] = TrieNode()
+            current = current.children[char]
+        current.is_end_of_word = True
+
+    def starts_with(self, prefix):
+        """Returns True if there is any word in the trie that starts with the given prefix."""
+        current = self.root
+        for char in prefix:
+            if char not in current.children:
+                return False
+            current = current.children[char]
+        return True
+```
+
+## 🕸️ 8. Graphs (Adjacency List)
+A **Graph** consists of a set of **Vertices** (nodes) and **Edges** (connections between them). We typically implement them using an **Adjacency List**, which is essentially a dictionary where every node maps to a list of its neighbors.
+
+* **Pros:** Extremely powerful for modeling networks and finding the shortest path between points.
+* **Cons:** More complex to traverse; you must track "visited" nodes to avoid infinite loops (cycles).
+* **Search (BFS/DFS):** $O(V + E)$ where $V$ is vertices and $E$ is edges.
+
+
+
+```python
+class Graph:
+    def __init__(self):
+        # The dictionary key is the node, the value is a list of neighbors
+        self.adj_list = {}
+
+    def add_vertex(self, vertex):
+        if vertex not in self.adj_list:
+            self.adj_list[vertex] = []
+
+    def add_edge(self, v1, v2, bidirectional=True):
+        """Add a connection between two vertices."""
+        self.add_vertex(v1)
+        self.add_vertex(v2)
+        
+        self.adj_list[v1].append(v2)
+        if bidirectional:
+            self.adj_list[v2].append(v1)
+
+    def get_neighbors(self, vertex):
+        return self.adj_list.get(vertex, [])
+```
+
+## 🧭 9. Graph Traversal (DFS & BFS)
+Unlike linear structures, graphs require specific strategies to visit every node without getting stuck in infinite loops (cycles).
+
+### Depth-First Search (DFS)
+DFS goes as deep as possible down one branch before backtracking to the last "fork in the road." It is built using **Recursion** or a **Stack**.
+* **Best for:** Detecting cycles, solving mazes, and pathfinding where you need to explore every possibility.
+
+
+```python
+def dfs(graph, node, visited=None):
+    if visited is None:
+        visited = set()
+    
+    # Mark the current node as visited
+    visited.add(node)
+    print(f"DFS Visited: {node}")
+    
+    # Recursively visit all unvisited neighbors
+    for neighbor in graph.adj_list[node]:
+        if neighbor not in visited:
+            dfs(graph, neighbor, visited)
+```
+
+### Breadth-First Search (BFS)
+BFS explores a graph layer-by-layer. It visits all immediate neighbors first before moving to the neighbors' neighbors. It is built using a **Queue**.
+
+* **Logic:** First-In, First-Out (FIFO).
+* **Best for:** Finding the **shortest path** between two nodes in an unweighted network (e.g., finding the fewest number of hops between friends in a social network).
+
+```python
+from collections import deque
+
+def bfs(graph, start_node):
+    visited = set()
+    # Queue stores nodes to visit in the order they were discovered
+    queue = deque([start_node])
+    visited.add(start_node)
+    
+    while queue:
+        # Pop the oldest node (First-In, First-Out)
+        current = queue.popleft()
+        print(f"BFS Visited: {current}")
+        
+        # Check all neighbors of the current node
+        for neighbor in graph.adj_list[current]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+```
+
+## 📊 Data Structure Complexity Cheat Sheet
+
+This table summarizes the time complexity for common operations. Understanding these trade-offs is critical for choosing the right structure for your specific problem.
+
+| Data Structure | Access | Search | Insertion | Deletion |
+| :--- | :--- | :--- | :--- | :--- |
+| **Array (Dynamic)** | $O(1)$ | $O(n)$ | $O(n)$ | $O(n)$ |
+| **Singly Linked List** | $O(n)$ | $O(n)$ | $O(1)$ | $O(1)$ |
+| **Doubly Linked List** | $O(n)$ | $O(n)$ | $O(1)$ | $O(1)$ |
+| **Stack (LIFO)** | $O(n)$ | $O(n)$ | $O(1)$ | $O(1)$ |
+| **Queue (FIFO)** | $O(n)$ | $O(n)$ | $O(1)$ | $O(1)$ |
+| **Binary Search Tree** | $O(\log n)$ | $O(\log n)$ | $O(\log n)$ | $O(\log n)$ |
+| **Trie (Prefix Tree)** | $O(L)$ | $O(L)$ | $O(L)$ | $O(L)$ |
+| **Graph (BFS/DFS)** | N/A | $O(V + E)$ | $O(1)$ | $O(1)$ |
+
+### Key:
+* **$n$**: Number of elements in the structure.
+* **$L$**: Length of the word/string being searched.
+* **$V$**: Number of Vertices (nodes) in a graph.
+* **$E$**: Number of Edges (connections) in a graph.
+* **Note**: Tree and Graph complexities assume the structures are relatively balanced.
