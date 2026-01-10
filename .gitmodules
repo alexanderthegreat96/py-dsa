@@ -1,0 +1,3 @@
+[submodule "go/autocomplete"]
+	path = go/autocomplete
+	url = https://github.com/alexanderthegreat96/go-autocomplete
