@@ -146,3 +146,35 @@ cython_debug/
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Binary Executables
+# ------------------
+# Ignores the compiled output of 'go build'
+autocomplete
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Data / Dictionaries
+# -------------------
+*.csv
+*.log
+
+# Dependency Directories
+# ----------------------
+vendor/
+
+# Operating System Files
+# ----------------------
+.DS_Store
+Thumbs.db
+.env
+
+# IDE / Editor Folders
+# --------------------
+.vscode/
+.idea/
+*.swp
+*.swo
