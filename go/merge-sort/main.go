@@ -51,6 +51,7 @@ func merge[T cmp.Ordered](data []T, start, mid, end int) {
 		leftPos++
 		tempIndex++
 	}
+
 	for rightPos < end {
 		temp[tempIndex] = data[rightPos]
 		rightPos++
